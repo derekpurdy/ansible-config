@@ -3,24 +3,25 @@
 - hosts: dns
 
   vars:
+    unbound_access_control:
+      - 10.0.0.0/8 allow
+      - 127.0.0.0/8 allow
+      - 192.168.0.0/16 allow
     unbound_conf_path: "/etc/unbound/unbound.conf.d/pi-hole.conf"
-    unbound_port: 5353
-    unbound_verbosity: 1
     unbound_control_enable: "yes"
     unbound_control_port: 8953
+    unbound_do_ip6: "no"
+    unbound_edns_buffer_size: 1472
+    unbound_extended_statistics: "yes"
+    unbound_harden_dnssec_stripped: "yes"
+    unbound_harden_glue: "yes"
+    unbound_interface_automatic: "yes"
     unbound_interfaces:
       - 0.0.0.0
-    unbound_interface_automatic: "yes"
     unbound_logfile: '"/var/log/unbound/unbound.log"'
-    unbound_do_ip6: "no"
+    unbound_port: 5353
     unbound_prefer_ip6: "no"
-    unbound_root_hints: '"/var/lib/unbound/root.hints"'
-    unbound_harden_glue: "yes"
-    unbound_harden_dnssec_stripped: "yes"
-    unbound_use_caps_for_id: "no"
-    unbound_edns_buffer_size: 1472
     unbound_prefetch: "yes"
-    unbound_so_rcvbuf: 1m
     unbound_private_addresses:
       - 192.168.0.0/16
       - 169.254.0.0/16
@@ -28,13 +29,12 @@
       - 10.0.0.0/8
       - fd00::/8
       - fe80::/10
-    unbound_access_control:
-      - 10.0.0.0/8 allow
-      - 127.0.0.0/8 allow
-      - 192.168.0.0/16 allow
-    unbound_extended_statistics: "yes"
+    unbound_root_hints: '"/var/lib/unbound/root.hints"'
+    unbound_so_rcvbuf: 1m
     unbound_statistics_cumulative: "no"
     unbound_statistics_interval: 0
+    unbound_use_caps_for_id: "no"
+    unbound_verbosity: 1
 
   roles:
   - anthony25.unbound
