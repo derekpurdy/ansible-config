@@ -9,6 +9,15 @@
     owner: pi
     group: pi
 
+- name: Create root .ssh directory
+  ansible.builtin.file:
+    path: /root/.ssh
+    state: directory
+    mode: '0700'
+    recurse: yes
+    owner: root
+    group: root
+
 - name: Copy config to .ssh folder
   ansible.builtin.template:
     src: sshconfig.j2
