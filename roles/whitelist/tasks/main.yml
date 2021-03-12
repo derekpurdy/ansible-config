@@ -1,0 +1,25 @@
+---
+
+- name: Create git directory
+  ansible.builtin.file:
+    path: /home/pi/git
+    state: directory
+    mode: '0755'
+    recurse: yes
+    owner: pi
+    group: pi
+
+- name: Copy whitelist locally
+  ansible.builtin.git:
+    repo: git@github.com:anudeepND/whitelist.git
+    dest: /home/pi/git/whitelist
+    update: no
+
+- name: Install whitelist to pi user crontab
+  ansible.builtin.cron:
+    name: "Update Whitelist"
+    minute: "0"
+    hour: "1"
+    weekday : "*/7"
+    job: "sudo python3 /home/pi/git/whitelist/scripts/whitelist.py"
+    user: pi

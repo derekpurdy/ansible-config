@@ -1,0 +1,14 @@
+---
+
+- hosts: dns
+
+  vars:
+
+  roles:
+    - ssh
+    - piholeCloudsync
+    - whitelist
+
+  become: true
+
+  pre_tasks:

@@ -1,0 +1,24 @@
+---
+
+- name: Copy pihole-cloudsync locally
+  ansible.builtin.git:
+    repo: git@github.com:stevejenkins/pihole-cloudsync.git
+    dest: /usr/local/bin/pihole-cloudsync
+    update: no
+
+- name: Copy pihole-cloudsync locally
+  ansible.builtin.git:
+    repo: git@github.com:derekpurdy/my-pihole-lists.git
+    dest: /usr/local/bin/my-pihole-lists
+    update: no
+
+# - name: Initialize pihole-cloudsync
+#  command: /usr/local/bin/pihole-cloudsync/pihole-cloudsync --initpull
+
+- name: Install pihole-cloudsync to pi user crontab
+  ansible.builtin.cron:
+    name: "Pull Master Pi-hole Lists from remote Git repo"
+    minute: "05"
+    hour: "01,07,13,19"
+    job: "sudo /usr/local/bin/pihole-cloudsync/pihole-cloudsync --push > /dev/null 2>&1 "
+    user: pi
